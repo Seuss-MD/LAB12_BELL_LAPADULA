@@ -27,14 +27,14 @@ ID_INVALID = -1
 class Interact:
     # Constructor to authenticate the user and link to the messages
     def __init__(self, username, password, messages_obj):
-        self.username = username #Store the username
+        self._username = username #Store the username
         self._p_messages = messages_obj #link to the messages
         
         # Try to authenticate the user
         if self._authenticate(username, password):
             print(f"Authenticated as {username}.")
         else:
-            print("Authentication failed.  Your are PUBLIC level.")
+            print("Authentication failed.  You are PUBLIC level.")
             
     
     #Check the username and password, set the user's security level
@@ -87,10 +87,10 @@ class Interact:
     def add(self, text, date, level):
         # Bell-Lapadula:  No Write Down (must be >= object level)
         if control.can_write(self._control_level, level):
-            self._p_messages.add(text, self.username, date, level)
+            self._p_messages.add(text, self._username, date, level)
             print("Message added successfully")
         else:
-            print("ACCESS DENIED: you can not write at this security level.")
+            print("ACCESS DENIED: you cannot write at this security level.")
                 
     #update an existing mesage text if allowed   (loops through messages, matches by ID, checks no write down with can_write(), updates text if allowed, prints a not found note if no match
     def update(self, id, new_text):
@@ -101,12 +101,12 @@ class Interact:
                     m.update_text(new_text)
                     print("Message updated successfully.")
                 else:
-                    print("Access Denied: You cannot update this message.")
+                    print("ACCESS DENIED: You cannot update this message.")
                 return #done
         print("Message ID not found.")  # No match found
                 
                 
-    #Remove or clear a message if allowed (ok so this loops through messages, matches by id, checks can_write for no write down, clears the message fi allowed, prints not found if not a match
+    #Remove or clear a message if allowed (ok so this loops through messages, matches by id, checks can_write for no write down, clears the message if allowed, prints not found if not a match
     def remove(self, id):
         for m in self._p_messages._messages:
             if m.get_id() == id:
@@ -115,7 +115,7 @@ class Interact:
                     m.clear()
                     print("Message removed successfully.")
                 else:
-                    print("ACCESS DENIED: you can not remove this message.")
+                    print("ACCESS DENIED: you cannot remove this message.")
                     return  # Done with this message
         print("Message ID not found.")  # No match found
                         

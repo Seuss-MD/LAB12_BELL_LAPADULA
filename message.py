@@ -5,13 +5,13 @@ class Message:
     #Static Variable to keep track of the next unique ID for all the messages.
     _id_next = 100
     
-    # Constuctor to create a new message with text, author, date, and security level
+    # Constructor to create a new message with text, author, date, and security level
     def __init__(self, text, author, date, level):
         self._text = text  #This is the acutal message content
         self._author = author  #Who wrote the message
         self._date = date       #When the message was written
-        self._level = level      #The Securitylevel of this message
-        self._id = Message._id_next   #Unique ID for the next message
+        self._level = level      #The Security level of this message
+        self._id = Message._id_next   #Unique ID for the this message
         Message._id_next += 1         #Increment ID for the next message
         self._empty = False           #Flag to indicate if this message is empty or not
         
