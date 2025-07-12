@@ -31,8 +31,9 @@ class Interact:
         self._p_messages = messages_obj #link to the messages
         
         # Try to authenticate the user
+        print()
         if self._authenticate(username, password):
-            print(f"Authenticated as {username}.")
+            print(f"Authenticated as {username}. You have {self._control_level.name} level.")
         else:
             print("Authentication failed.  You are PUBLIC level.")
             
@@ -63,11 +64,12 @@ class Interact:
     #Display all messages that this user is allowed to read
     def display(self):
         for m in self._p_messages._messages:
-            # Check if user can read this message's level
-            if control.can_read(self._control_level, m.get_level()):
-                m.display_properties()
-            else:
-                print(f"[{m.get_id()}] ACCESS DENIED: cannot view this message.")
+            self.show(m.get_id())  
+
+            # Uncomment this if you want to show all message IDs regardless of access
+            # I commented it out because I thought it would be more secure not to show all message IDs
+            # else:
+            #     print(f"[{m.get_id()}] ACCESS DENIED: cannot view this message.")
                     
                     
     # Show the full text of a single message by ID
@@ -77,10 +79,11 @@ class Interact:
                 # Check Bell-Lapadula "No Read Up"
                 if control.can_read(self._control_level, m.get_level()):
                     m.display_text()
+                    return True # Found the message, done.
                 else:
-                    print("ACCESS DENIED: You cannot read this message.")
-                return # Found the message, done.
-        print("Message ID not found.")  # If loop finishes with no match
+                    return False
+                 # Found the message, done.
+        print("Message ID not found.\n")  # If loop finishes with no match
             
             
     #add a new message if the user is allowed to write at the level ( checks can_write(), no write down, calls messages.add() if allowed and attaches the current user as the author
